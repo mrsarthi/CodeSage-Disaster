@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disaster Survival Challenge</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto&family=Rubik:wght@500&display=swap');
+      </style>
+    <style>
+        body {
+            /* font-family: Arial, sans-serif; */
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        #game-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 23px auto;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        #game-output {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            width: 12em;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #google_translate_element
+        {
+            display:flex;
+            justify-content: right;
+        }
+    </style>
+    <!-- Include the Google Translate API script -->
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement('google_translate_element');
+        }
+    </script>
+</head>
+<body>
+    <h1>Disaster Survival Challenge</h1>
+
+    <!-- Language selector -->
+    <div id="google_translate_element" class="float-left"></div>
+
+    <div id="game-container" class="space-x-5 ">
+        <p id="game-output">Welcome to the game!</p>
+        <button id="choice1">Choice 1</button>
+        <button id="choice2">Choice 2</button>
+    </div>
+
+    <!-- Disaster-related questions and content (English) -->
+    <script>
+        // Define game variables (unchanged)
+        let score = 0;
+        let eventsSurvived = 0;
+
+        // Define disaster events and choices (questions in English)
+        const events = [
+            {
+                description: "What is the primary cause of earthquakes?",
+                choices: [
+                    { text: "Volcanic eruptions", correct: false },
+                    { text: "Tectonic plate movement", correct: true }
+                ]
+            },
+            {
+                description: "How can you protect yourself during an earthquake indoors?",
+                choices: [
+                    { text: "Stand near a window", correct: false },
+                    { text: "Drop, cover, and hold on", correct: true }
+                ]
+            },
+            {
+        description: "What is the primary cause of earthquakes?",
+        choices: [
+            { text: "Volcanic eruptions", correct: false },
+            { text: "Tectonic plate movement", correct: true }
+        ]
+    },
+    {
+        description: "How can you protect yourself during an earthquake indoors?",
+        choices: [
+            { text: "Stand near a window", correct: false },
+            { text: "Drop, cover, and hold on", correct: true }
+        ]
+    },
+    {
+        description: "What should you do if you are caught in a flash flood while driving?",
+        choices: [
+            { text: "Drive through it as quickly as possible", correct: false },
+            { text: "Turn around and find another route", correct: true }
+        ]
+    },
+    {
+        description: "What are the essential items to include in an emergency preparedness kit?",
+        choices: [
+            { text: "Candles and matches", correct: false },
+            { text: "Water, food, and first aid supplies", correct: true }
+        ]
+    },
+    {
+        description: "How can you reduce the risk of a house fire?",
+        choices: [
+            { text: "Leave candles unattended", correct: false },
+            { text: "Install smoke detectors", correct: true }
+        ]
+    },
+    {
+        description: "What should you do if you encounter a tornado while in a vehicle?",
+        choices: [
+            { text: "Stay in the car", correct: false },
+            { text: "Get out and seek shelter in a low-lying area", correct: true }
+        ]
+    },
+    {
+        description: "What is the 'Stop, Drop, and Roll' technique used for?",
+        choices: [
+            { text: "Climbing mountains", correct: false },
+            { text: "Extinguishing clothing fires", correct: true }
+        ]
+    },
+    {
+        description: "How can you prepare for a hurricane?",
+        choices: [
+            { text: "Open all windows to equalize pressure", correct: false },
+            { text: "Secure outdoor objects and stock up on supplies", correct: true }
+        ]
+    },
+    {
+        description: "What is the difference between a hurricane and a typhoon?",
+        choices: [
+            { text: "Nothing, they are the same", correct: false },
+            { text: "The region in which they occur", correct: true }
+        ]
+    },
+    {
+        description: "What is the primary cause of wildfires?",
+        choices: [
+            { text: "Lightning strikes", correct: false },
+            { text: "Human activities and dry conditions", correct: true }
+        ]
+    },
+            // Add more questions and events in English here
+        ];
+
+        const gameOutput = document.getElementById("game-output");
+        const choice1Button = document.getElementById("choice1");
+        const choice2Button = document.getElementById("choice2");
+
+        // Function to handle player's choice
+        function makeChoice(eventIndex, choiceIndex) {
+            const event = events[eventIndex];
+            const choice = event.choices[choiceIndex];
+            if (choice.correct) {
+                score += 10;
+                gameOutput.textContent = "You made the right choice and survived!";
+            } else {
+                gameOutput.textContent = "Your choice led to consequences...";
+            }
+            eventsSurvived++;
+
+            // Check if the game is over
+            if (eventsSurvived < events.length) {
+                // Continue to the next event
+                setTimeout(() => showEvent(eventsSurvived), 2000);
+            } else {
+                // Game over
+                gameOutput.textContent = `Game over! Your score: ${score}`;
+                choice1Button.disabled = true;
+                choice2Button.disabled = true;
+            }
+        }
+
+        // Function to display an event and choices
+        function showEvent(eventIndex) {
+            const event = events[eventIndex];
+            gameOutput.textContent = event.description;
+            choice1Button.textContent = event.choices[0].text;
+            choice2Button.textContent = event.choices[1].text;
+
+            // Attach event handlers to the choice buttons
+            choice1Button.onclick = () => makeChoice(eventIndex, 0);
+            choice2Button.onclick = () => makeChoice(eventIndex, 1);
+        }
+
+        // Start the game
+        showEvent(0);
+    </script>
+
+    <!-- Rest of your game's HTML and JavaScript code -->
+</body>
+</html>
